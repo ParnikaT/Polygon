@@ -1,0 +1,76 @@
+import java.awt.geom.Point2D;
+
+public class IrregularPolygon extends Polygon
+{
+	private int myNumberSides; 
+	private Point2D myCenter; 
+	private int myMinRadius; 
+	private int myMaxRadius; 
+	
+	public IrregularPolygon(int numSides, Point2D center, int minRadius, int maxRadius,double xVelocity, double yVelocity, double rVelocity)
+	{
+		
+		
+		super(numSides, center, maxRadius, xVelocity, yVelocity, rVelocity); 
+		myNumberSides=numSides; 
+		myCenter=center; 
+		myMinRadius=minRadius; 
+		myMaxRadius=maxRadius; 
+		/*
+		 *public RegularPolygon(int numberSides, Point2D center, int radius)
+	{
+		super(numberSides, center, radius); 
+	
+		int theta=0; 
+		double radTheta=0; 
+		double x; 
+		double y; 
+			
+		Point2D[] myVertices = new Point2D[numberSides];
+		
+		for(int count=0; count<numberSides; count++)
+		{
+			radTheta=Math.toRadians(theta); 
+			x=center.getX()+Math.cos(radTheta)*radius; 
+			y=center.getY()+Math.sin(radTheta)*radius; 
+			
+			theta += (360/numberSides); 
+			
+			myVertices[count]=new Point2D.Double(x,y); 
+			
+		}
+		
+		super.setVertices(myVertices);
+		 
+		
+		//myVertices[count]=new Point2D.Double(x,y); 
+	}
+		 */
+		
+		
+		
+		int theta=0; 
+		double radTheta=0; 
+		double x; 
+		double y; 
+			
+		Point2D[] myVertices = new Point2D[numSides];
+		
+		for(int count=0; count<numSides; count++)
+		{
+			radTheta=Math.toRadians(theta); 
+			x=center.getX()+Math.cos(radTheta)*myMinRadius; 
+			y=center.getY()+Math.sin(radTheta)*myMaxRadius; 
+			
+			theta += (360/numSides); 
+			
+			myVertices[count]=new Point2D.Double(x,y); 
+			
+		}
+		
+		super.setVertices(myVertices);
+		 
+	}
+
+}//num sides, center, min radius, max radius
+
