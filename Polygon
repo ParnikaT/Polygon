@@ -1,0 +1,76 @@
+import java.awt.Graphics2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+
+public class Polygon 
+{
+	private int myNumSides; 
+	private int myRadius; 
+	private Point2D myCenter; 
+	private Point2D[] myVertices; 
+	private double myXVelocity; 
+	private double myYVelocity; 
+	private double myRVelocity; 
+	
+	public Polygon(int numberSides, Point2D center, int radius, double xVelocity, double yVelocity, double rVelocity)
+	{
+		myCenter=center; 
+		myNumSides=numberSides; 
+		myRadius=radius; 
+		myXVelocity=xVelocity; 
+		myYVelocity=yVelocity; 
+		myRVelocity=rVelocity; 
+		
+		myVertices=new Point2D[myNumSides];
+	}
+	
+	protected void setVertices(Point2D[] Vertices)
+	{
+		myVertices=Vertices; 
+	}
+	
+	public String toString()
+	{
+		
+		System.out.println(myVertices);
+		String str = "Polygon: Center=" + myCenter + " Number of Sides=" + myNumSides + " Radius=" + myRadius +  "\n";
+		
+		for(Point2D current: myVertices)
+		{
+			str += "\t" +  current +  "\n"; 
+		}
+		
+		return str; 
+	}
+
+	
+	public void drawPolygon(Graphics2D g2) 
+	{
+		
+		for(int i= 0; i<myVertices.length-1; i++)
+		{
+			Line2D temp= new Line2D.Double(myVertices[i], myVertices[i+1]); 
+			
+			g2.draw(temp);
+		}
+		
+		Line2D temp= new Line2D.Double(myVertices[0], myVertices[myVertices.length-1]);
+		g2.draw(temp);
+		move();
+		
+	}
+	
+	public void move()
+	{			
+		myCenter.setLocation(myCenter.getX()+myXVelocity, myCenter.getY()+myYVelocity);
+		
+		
+		for(Point2D current: myVertices)
+		{
+			current.setLocation(current.getX()+myXVelocity, current.getY()+myYVelocity);
+		}
+		
+		
+		
+	}
+}
