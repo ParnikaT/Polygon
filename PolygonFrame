@@ -1,0 +1,115 @@
+
+
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+/**
+   The frame with panel and buttons.
+*/
+class PolygonFrame extends JFrame
+{
+	
+  private PolygonPanel panel;
+  
+  public static final int DEFAULT_WIDTH = 1000;
+  public static final int DEFAULT_HEIGHT = 800;
+  
+	
+/**
+   Constructs the frame which contains the panel for showing the polygons and the buttons
+*/
+   public PolygonFrame()
+   {
+     setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+     setTitle("Polygons!");
+
+     //the panel is used to draw the polygons on...
+     panel = new PolygonPanel();
+     
+     //place the panel in the frame
+     add(panel, BorderLayout.CENTER);
+     
+     //create another panel to hold the buttons..another.
+     JPanel buttonPanel = new JPanel();
+     
+     //put the buttons in the panel
+     this.addButton(buttonPanel, "Add Regular",
+    	       new ActionListener()
+    	       {
+    	         public void actionPerformed(ActionEvent event)
+    	        {
+    	          
+    	        	addRegularPolygon();
+    	        }
+    	     });
+     
+     this.addButton(buttonPanel, "Add Irregular",
+  	       new ActionListener()
+  	       {
+  	         public void actionPerformed(ActionEvent event)
+  	        {
+  	          
+  	        	addIrregularPolygon();
+  	        }
+  	     });
+     
+     this.addButton(buttonPanel, "Close",
+       new ActionListener()
+       {
+         public void actionPerformed(ActionEvent event)
+         {
+           System.exit(0);
+         }
+       });
+    add(buttonPanel, BorderLayout.NORTH);
+  }
+
+ 
+   // Adds a button to a container.
+  
+  public void addButton(Container c, String title, ActionListener listener)
+  {
+    JButton button = new JButton(title);
+    c.add(button);
+    button.addActionListener(listener);
+  }
+
+  
+  public int randInt(int lower, int upper)
+  {
+	  return (int) (Math.random()*(upper-lower+1)+lower);
+  }
+ 
+    
+   public void addRegularPolygon()
+   {
+	   
+	 Polygon b = new RegularPolygon(randInt(3,10), new Point2D.Double(randInt(0,900), randInt(0,500)), 50, randInt(-10,10), randInt(-10,10),randInt(-10,10));
+	 
+	 panel.add(b);
+     Runnable r = new PolygonRunnable(b, panel);
+     Thread t = new Thread(r);
+     t.start();
+   }
+   
+   public void addIrregularPolygon()
+   {
+	   
+	 Polygon b = new IrregularPolygon(randInt(3,10), new Point2D.Double(randInt(0,900), randInt(0,500)), 20, 50, randInt(-10,10), randInt(-10,10),randInt(-10,10));
+	 
+	 panel.add(b);
+     Runnable r = new PolygonRunnable(b, panel);
+     Thread t = new Thread(r);
+     t.start();
+   }
+  
+
+}
+	
